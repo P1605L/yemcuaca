@@ -3,395 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CuacaKu - Peta Cuaca Indonesia</title>
+    <title>YemCuaca - Ramalan Cuaca Seluruh Indonesia</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #4361ee;
-            --secondary: #3f37c9;
-            --success: #4cc9f0;
-            --warning: #f72585;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --gray: #6c757d;
-            --card-bg: rgba(255, 255, 255, 0.95);
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
-            color: var(--dark);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            color: white;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .app-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        @media (max-width: 1100px) {
-            .app-container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-            padding: 25px;
-            margin-bottom: 25px;
-            backdrop-filter: blur(10px);
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .permission-card {
-            text-align: center;
-        }
-
-        .weather-card {
-            display: none;
-        }
-
-        .map-card {
-            height: 600px;
-            padding: 0;
-            overflow: hidden;
-        }
-
-        .map-container {
-            width: 100%;
-            height: 100%;
-            border-radius: 16px;
-        }
-
-        .map-overlay {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            right: 20px;
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            z-index: 1000;
-        }
-
-        .map-controls {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .location-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .location-details h2 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-        }
-
-        .location-details p {
-            color: var(--gray);
-            font-size: 1rem;
-        }
-
-        .btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 12px 20px;
-            cursor: pointer;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            justify-content: center;
-        }
-
-        .btn:hover {
-            background: var(--secondary);
-            transform: scale(1.05);
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-outline:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-small {
-            padding: 8px 15px;
-            font-size: 0.9rem;
-        }
-
-        .current-weather {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .weather-icon {
-            font-size: 5rem;
-            color: var(--primary);
-        }
-
-        .temperature {
-            font-size: 4rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .weather-desc {
-            font-size: 1.5rem;
-            color: var(--gray);
-            text-transform: capitalize;
-        }
-
-        .weather-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-        }
-
-        .detail-item {
-            background: rgba(67, 97, 238, 0.1);
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-        }
-
-        .detail-item i {
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-
-        .detail-label {
-            font-size: 0.9rem;
-            color: var(--gray);
-            margin-bottom: 5px;
-        }
-
-        .detail-value {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .forecast {
-            margin-top: 30px;
-        }
-
-        .forecast h3 {
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-            color: var(--dark);
-        }
-
-        .forecast-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-        }
-
-        .forecast-item {
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .forecast-item:hover {
-            background: white;
-            transform: scale(1.03);
-        }
-
-        .forecast-day {
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .forecast-icon {
-            font-size: 2rem;
-            color: var(--primary);
-            margin: 10px 0;
-        }
-
-        .forecast-temp {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .forecast-desc {
-            font-size: 0.9rem;
-            color: var(--gray);
-            margin-top: 5px;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
-            display: none;
-        }
-
-        .spinner {
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top: 5px solid var(--primary);
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .error-message {
-            text-align: center;
-            padding: 20px;
-            background: rgba(247, 37, 133, 0.1);
-            border-radius: 12px;
-            color: var(--warning);
-            display: none;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: white;
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        .map-search {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .map-search input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 50px;
-            font-size: 1rem;
-        }
-
-        .selected-location {
-            margin-top: 15px;
-            padding: 10px;
-            background: rgba(67, 97, 238, 0.1);
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        @media (max-width: 768px) {
-            .current-weather {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .temperature {
-                font-size: 3rem;
-            }
-            
-            .location-info {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .button-group {
-                flex-direction: column;
-            }
-
-            .map-controls {
-                flex-direction: column;
-            }
-
-            .map-search {
-                flex-direction: column;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-cloud-sun"></i> CuacaKu</h1>
-            <p>Peta Ramalan Cuaca Real-time Indonesia</p>
+            <h1><i class="fas fa-cloud-sun"></i> YemCuaca</h1>
+            <p>Ramalan Cuaca 2025- Data BMKG</p>
         </header>
 
         <!-- Kartu Persetujuan Lokasi -->
         <div class="card permission-card" id="permissionCard">
             <h2>Akses Lokasi Diperlukan</h2>
-            <p>Untuk menampilkan ramalan cuaca yang akurat di lokasi Anda, kami memerlukan izin untuk mengakses lokasi perangkat Anda.</p>
+            <p>warning!!! untuk saat untuk perizinan lokasi belum bisa yang dikarenakan belum ada API dari google maps</p>
             <div style="margin: 30px 0;">
                 <i class="fas fa-map-marker-alt" style="font-size: 4rem; color: var(--primary);"></i>
             </div>
@@ -399,8 +25,8 @@
                 <i class="fas fa-location-arrow"></i> Izinkan Akses Lokasi
             </button>
             <div class="button-group">
-                <button class="btn btn-outline" id="useMapBtn">
-                    <i class="fas fa-map"></i> Pilih dari Peta
+                <button class="btn btn-outline" id="manualLocationBtn">
+                    <i class="fas fa-map-pin"></i> Pilih Kota Manual
                 </button>
             </div>
             <p style="margin-top: 15px; font-size: 0.9rem; color: var(--gray);">
@@ -408,86 +34,212 @@
             </p>
         </div>
 
-        <!-- Kontainer Aplikasi Utama -->
-        <div class="app-container" id="appContainer" style="display: none;">
-            <!-- Panel Cuaca -->
-            <div>
-                <div class="card weather-card" id="weatherCard">
-                    <div class="location-info">
-                        <div class="location-details">
-                            <h2 id="locationName">Pilih lokasi di peta</h2>
-                            <p id="currentDate">-</p>
-                        </div>
-                        <button class="btn" id="refreshBtn">
-                            <i class="fas fa-sync-alt"></i> Perbarui
-                        </button>
-                    </div>
+        <!-- Tab Navigasi -->
+        <div class="app-tabs" id="appTabs" style="display: none;">
+            <button class="tab-btn active" data-tab="cuaca-umum">
+                <i class="fas fa-cloud-sun"></i> Cuaca Umum
+            </button>
+            <button class="tab-btn" data-tab="gempa">
+                <i class="fas fa-mountain"></i> Info Gempa
+            </button>
+            <button class="tab-btn" data-tab="maritim">
+                <i class="fas fa-ship"></i> Cuaca Maritim
+            </button>
+            <button class="tab-btn" data-tab="bandara">
+                <i class="fas fa-plane"></i> Cuaca Bandara
+            </button>
+            <button class="tab-btn" data-tab="kualitas-udara">
+                <i class="fas fa-wind"></i> Kualitas Udara
+            </button>
+        </div>
 
-                    <div class="current-weather">
-                        <div>
-                            <div class="temperature" id="currentTemp">-</div>
-                            <div class="weather-desc" id="weatherDesc">-</div>
-                        </div>
-                        <div class="weather-icon">
-                            <i id="weatherIcon" class="fas fa-sun"></i>
-                        </div>
-                    </div>
+        <!-- Konten Tab Beranda -->
+        <div class="tab-content active" id="beranda">
+            <div class="hero-section">
+                <h2>Selamat Datang di YemCuaca</h2>
+                <p>Informasi cuaca, gempa, dan kualitas udara untuk seluruh Indonesia</p>
+            </div>
 
-                    <div class="weather-details">
-                        <div class="detail-item">
-                            <i class="fas fa-wind"></i>
-                            <div class="detail-label">Kecepatan Angin</div>
-                            <div class="detail-value" id="windSpeed">-</div>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-tint"></i>
-                            <div class="detail-label">Kelembaban</div>
-                            <div class="detail-value" id="humidity">-</div>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-temperature-low"></i>
-                            <div class="detail-label">Tekanan Udara</div>
-                            <div class="detail-value" id="pressure">-</div>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-eye"></i>
-                            <div class="detail-label">Visibilitas</div>
-                            <div class="detail-value" id="visibility">-</div>
-                        </div>
-                    </div>
-
-                    <div class="forecast">
-                        <h3>Ramalan 5 Hari ke Depan</h3>
-                        <div class="forecast-list" id="forecastList">
-                            <!-- Data ramalan akan dimasukkan di sini -->
-                        </div>
-                    </div>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <i class="fas fa-cloud-sun-rain"></i>
+                    <h3>Cuaca Seluruh Indonesia</h3>
+                    <p>Informasi cuaca terkini untuk semua kota dan kabupaten di Indonesia</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-mountain"></i>
+                    <h3>Info Gempa Real-time</h3>
+                    <p>Update terbaru gempa bumi di Indonesia dan sekitarnya</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-ship"></i>
+                    <h3>Cuaca Maritim</h3>
+                    <p>Informasi cuaca untuk pelayaran dan aktivitas laut</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-wind"></i>
+                    <h3>Kualitas Udara</h3>
+                    <p>Monitoring kualitas udara di berbagai wilayah Indonesia</p>
                 </div>
             </div>
 
-            <!-- Panel Peta -->
-            <div>
-                <div class="card map-card">
-                    <div class="map-overlay">
-                        <div class="map-search">
-                            <input type="text" id="mapSearch" placeholder="Cari lokasi di Indonesia...">
-                            <button class="btn btn-small" id="searchBtn">
-                                <i class="fas fa-search"></i>
-                            </button>
+            <div class="card">
+                <h3><i class="fas fa-map-marked-alt"></i> Cek Cuaca di Seluruh Indonesia</h3>
+                <p>Pilih provinsi dan kota/kabupaten untuk melihat ramalan cuaca:</p>
+                
+                <div class="region-selector">
+                    <div>
+                        <label>Pilih Provinsi:</label>
+                        <select id="provinceSelect" class="city-selector">
+                            <option value="">-- Pilih Provinsi --</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Pilih Kota/Kabupaten:</label>
+                        <select id="citySelect" class="city-selector">
+                            <option value="">-- Pilih Kota --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="quick-cities" id="quickCities">
+                    <!-- Kota-kota populer akan dimuat di sini -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Konten Tab Cuaca Umum -->
+        <div class="tab-content" id="cuaca-umum">
+            <div class="card weather-card">
+                <div class="location-info">
+                    <div class="location-details">
+                        <h2 id="locationName">Pilih lokasi</h2>
+                        <p id="currentDate">-</p>
+                    </div>
+                    <button class="btn" id="refreshBtn">
+                        <i class="fas fa-sync-alt"></i> Perbarui
+                    </button>
+                </div>
+
+                <div class="search-box">
+                    <input type="text" id="searchCity" placeholder="Cari kota atau kabupaten...">
+                    <i class="fas fa-search"></i>
+                </div>
+
+                <div class="region-selector">
+                    <div>
+                        <label>Provinsi:</label>
+                        <select id="provinceSelectWeather">
+                            <option value="">-- Pilih Provinsi --</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Kota/Kabupaten:</label>
+                        <select id="citySelectWeather">
+                            <option value="">-- Pilih Kota --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="current-weather">
+                    <div>
+                        <div class="temperature" id="currentTemp">-</div>
+                        <div class="weather-desc" id="weatherDesc">-</div>
+                    </div>
+                    <div class="weather-icon">
+                        <i id="weatherIcon" class="fas fa-sun"></i>
+                    </div>
+                </div>
+
+                <div class="weather-details">
+                    <div class="detail-item">
+                        <i class="fas fa-wind"></i>
+                        <div class="detail-label">Kecepatan Angin</div>
+                        <div class="detail-value" id="windSpeed">-</div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-tint"></i>
+                        <div class="detail-label">Kelembaban</div>
+                        <div class="detail-value" id="humidity">-</div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-temperature-low"></i>
+                        <div class="detail-label">Suhu Min-Max</div>
+                        <div class="detail-value" id="temperatureRange">-</div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-eye"></i>
+                        <div class="detail-label">Arah Angin</div>
+                        <div class="detail-value" id="windDirection">-</div>
+                    </div>
+                </div>
+
+                <div class="forecast">
+                    <h3>Ramalan 3 Hari ke Depan</h3>
+                    <div class="forecast-list" id="forecastList">
+                        <!-- Data ramalan akan dimasukkan di sini -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Konten Tab Gempa -->
+        <div class="tab-content" id="gempa">
+            <div class="card">
+                <h3><i class="fas fa-mountain" style="color: var(--warning);"></i> Informasi Gempa Terkini</h3>
+                
+                <div class="alert-card" id="latestEarthquake">
+                    <h4>Gempa Terbaru (Auto Gempa)</h4>
+                    <div class="alert-info">
+                        <div>
+                            <strong id="eqMagnitude">-</strong>
+                            <div id="eqRegion">-</div>
                         </div>
-                        <div class="map-controls">
-                            <button class="btn btn-small" id="currentLocationBtn">
-                                <i class="fas fa-location-arrow"></i> Lokasi Saya
-                            </button>
-                            <button class="btn btn-small btn-outline" id="resetMapBtn">
-                                <i class="fas fa-sync"></i> Reset Peta
-                            </button>
-                        </div>
-                        <div class="selected-location" id="selectedLocation">
-                            Klik pada peta untuk memilih lokasi
+                        <div>
+                            <div id="eqDateTime">-</div>
+                            <div id="eqDepth">-</div>
                         </div>
                     </div>
-                    <div id="map" class="map-container"></div>
+                </div>
+
+                <div class="earthquake-list" id="earthquakeList15">
+                    <h4>15 Gempa Terakhir</h4>
+                    <!-- Data gempa akan dimasukkan di sini -->
+                </div>
+
+                <div class="earthquake-list" id="earthquakeListFelt">
+                    <h4>Gempa Dirasakan (≥ 5.0 SR)</h4>
+                    <!-- Data gempa dirasakan akan dimasukkan di sini -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Konten Tab Maritim -->
+        <div class="tab-content" id="maritim">
+            <div class="card">
+                <h3><i class="fas fa-ship" style="color: var(--primary);"></i> Informasi Cuaca Maritim</h3>
+                <div id="marineWeather">
+                    <!-- Data cuaca maritim akan dimasukkan di sini -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Konten Tab Bandara -->
+        <div class="tab-content" id="bandara">
+            <div class="card">
+                <h3><i class="fas fa-plane" style="color: var(--primary);"></i> Informasi Cuaca Bandara</h3>
+                <div id="airportWeather">
+                    <!-- Data cuaca bandara akan dimasukkan di sini -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Konten Tab Kualitas Udara -->
+        <div class="tab-content" id="kualitas-udara">
+            <div class="card">
+                <h3><i class="fas fa-wind" style="color: var(--primary);"></i> Kualitas Udara</h3>
+                <div id="airQualityData">
+                    <!-- Data kualitas udara akan dimasukkan di sini -->
                 </div>
             </div>
         </div>
@@ -495,7 +247,7 @@
         <!-- Loading Indicator -->
         <div class="loading" id="loadingIndicator">
             <div class="spinner"></div>
-            <p>Mengambil data cuaca...</p>
+            <p id="loadingText">Mengambil data cuaca dari BMKG...</p>
         </div>
 
         <!-- Error Message -->
@@ -511,412 +263,39 @@
         </div>
     </div>
 
-    <footer>
-        <p>Data cuaca disediakan oleh BMKG | Peta oleh Google Maps | &copy; 2023 CuacaKu</p>
-    </footer>
+    <!-- Voice Assistant -->
+    <div class="voice-assistant" id="voiceAssistant">
+        <i class="fas fa-microphone"></i>
+    </div>
 
-    <!-- Load Google Maps API -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2Nc8a3Qg4IG__s_TOrDU0m1M8ka2-njI" async defer></script>
+    <div class="voice-modal" id="voiceModal">
+        <h4><i class="fas fa-robot"></i> Voice Assistant</h4>
+        <p id="voiceStatus">Klik tombol microphone untuk memulai</p>
+        <div class="button-group" style="margin-top: 15px;">
+            <button class="btn btn-outline" id="closeVoiceBtn">Tutup</button>
+        </div>
+    </div>
 
-    <script>
-        // Elemen DOM
-        const permissionCard = document.getElementById('permissionCard');
-        const appContainer = document.getElementById('appContainer');
-        const weatherCard = document.getElementById('weatherCard');
-        const loadingIndicator = document.getElementById('loadingIndicator');
-        const errorMessage = document.getElementById('errorMessage');
-        const errorText = document.getElementById('errorText');
-        
-        const locationName = document.getElementById('locationName');
-        const currentDate = document.getElementById('currentDate');
-        const currentTemp = document.getElementById('currentTemp');
-        const weatherDesc = document.getElementById('weatherDesc');
-        const weatherIcon = document.getElementById('weatherIcon');
-        const windSpeed = document.getElementById('windSpeed');
-        const humidity = document.getElementById('humidity');
-        const pressure = document.getElementById('pressure');
-        const visibility = document.getElementById('visibility');
-        const forecastList = document.getElementById('forecastList');
-        const selectedLocation = document.getElementById('selectedLocation');
-        const mapSearch = document.getElementById('mapSearch');
-        
-        const grantPermissionBtn = document.getElementById('grantPermissionBtn');
-        const useMapBtn = document.getElementById('useMapBtn');
-        const refreshBtn = document.getElementById('refreshBtn');
-        const retryBtn = document.getElementById('retryBtn');
-        const currentLocationBtn = document.getElementById('currentLocationBtn');
-        const resetMapBtn = document.getElementById('resetMapBtn');
-        const searchBtn = document.getElementById('searchBtn');
+    <!-- Footer Navigation -->
+    <div class="footer-nav">
+        <a href="#" class="nav-item active" data-page="beranda">
+            <i class="fas fa-home"></i>
+            <span>Beranda</span>
+        </a>
+        <a href="#" class="nav-item" data-page="cuaca-umum">
+            <i class="fas fa-cloud-sun"></i>
+            <span>Cuaca</span>
+        </a>
+        <a href="#" class="nav-item" data-page="gempa">
+            <i class="fas fa-mountain"></i>
+            <span>Gempa</span>
+        </a>
+        <a href="#" class="nav-item" data-page="kualitas-udara">
+            <i class="fas fa-wind"></i>
+            <span>Udara</span>
+        </a>
+    </div>
+    <script src="script.js"></script>
 
-        // Variabel global
-        let userLocation = null;
-        let map;
-        let marker;
-        let geocoder;
-        let infoWindow;
-
-        // Inisialisasi aplikasi
-        function initApp() {
-            // Atur tanggal saat ini
-            updateCurrentDate();
-            
-            // Cek apakah lokasi sudah diizinkan sebelumnya
-            if (localStorage.getItem('locationGranted') === 'true') {
-                requestLocation();
-            }
-        }
-
-        // Inisialisasi peta (dipanggil oleh Google Maps API)
-        function initMap() {
-            // Pusat peta di Indonesia
-            const indonesiaCenter = { lat: -2.5489, lng: 118.0149 };
-            
-            // Buat peta
-            map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 5,
-                center: indonesiaCenter,
-                mapTypeId: 'terrain',
-                styles: [
-                    {
-                        "featureType": "administrative",
-                        "elementType": "geometry",
-                        "stylers": [{ "visibility": "off" }]
-                    },
-                    {
-                        "featureType": "poi",
-                        "stylers": [{ "visibility": "off" }]
-                    },
-                    {
-                        "featureType": "road",
-                        "stylers": [{ "visibility": "off" }]
-                    },
-                    {
-                        "featureType": "water",
-                        "elementType": "labels.text",
-                        "stylers": [{ "visibility": "off" }]
-                    }
-                ]
-            });
-            
-            // Inisialisasi geocoder
-            geocoder = new google.maps.Geocoder();
-            
-            // Tambahkan event listener untuk klik peta
-            map.addListener('click', (event) => {
-                placeMarkerAndGetWeather(event.latLng);
-            });
-            
-            // Buat info window
-            infoWindow = new google.maps.InfoWindow();
-        }
-
-        // Tempatkan marker dan dapatkan cuaca
-        function placeMarkerAndGetWeather(latLng) {
-            // Hapus marker sebelumnya jika ada
-            if (marker) {
-                marker.setMap(null);
-            }
-            
-            // Buat marker baru
-            marker = new google.maps.Marker({
-                position: latLng,
-                map: map,
-                animation: google.maps.Animation.DROP
-            });
-            
-            // Dapatkan nama lokasi
-            geocoder.geocode({ location: latLng }, (results, status) => {
-                if (status === 'OK') {
-                    if (results[0]) {
-                        const address = results[0].formatted_address;
-                        const locationName = extractLocationName(address);
-                        selectedLocation.textContent = `Lokasi terpilih: ${locationName}`;
-                        
-                        // Simpan lokasi
-                        userLocation = {
-                            latitude: latLng.lat(),
-                            longitude: latLng.lng(),
-                            name: locationName
-                        };
-                        
-                        // Dapatkan data cuaca
-                        getWeatherData();
-                    }
-                } else {
-                    selectedLocation.textContent = 'Tidak dapat menemukan nama lokasi';
-                }
-            });
-        }
-
-        // Ekstrak nama lokasi dari alamat lengkap
-        function extractLocationName(address) {
-            // Cari kata kunci provinsi atau kota besar di Indonesia
-            const indonesiaKeywords = [
-                'Jakarta', 'Surabaya', 'Bandung', 'Medan', 'Semarang', 'Makassar', 'Palembang', 
-                'Bali', 'Yogyakarta', 'Malang', 'Denpasar', 'Batam', 'Pekanbaru', 'Balikpapan',
-                'Jawa Barat', 'Jawa Timur', 'Jawa Tengah', 'Sumatera Utara', 'Sumatera Selatan',
-                'Sulawesi Selatan', 'Kalimantan Timur', 'Banten', 'Lampung', 'Riau', 'Papua'
-            ];
-            
-            for (const keyword of indonesiaKeywords) {
-                if (address.includes(keyword)) {
-                    return keyword;
-                }
-            }
-            
-            // Jika tidak ditemukan, ambil bagian pertama dari alamat
-            return address.split(',')[0];
-        }
-
-        // Tampilkan aplikasi utama
-        function showApp() {
-            permissionCard.style.display = 'none';
-            appContainer.style.display = 'grid';
-            weatherCard.style.display = 'block';
-            loadingIndicator.style.display = 'none';
-            errorMessage.style.display = 'none';
-        }
-
-        // Tampilkan loading
-        function showLoading() {
-            permissionCard.style.display = 'none';
-            appContainer.style.display = 'none';
-            loadingIndicator.style.display = 'block';
-            errorMessage.style.display = 'none';
-        }
-
-        // Tampilkan error
-        function showError(message) {
-            permissionCard.style.display = 'none';
-            appContainer.style.display = 'none';
-            loadingIndicator.style.display = 'none';
-            errorMessage.style.display = 'block';
-            errorText.textContent = message;
-        }
-
-        // Perbarui tanggal saat ini
-        function updateCurrentDate() {
-            const now = new Date();
-            const options = { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            };
-            currentDate.textContent = now.toLocaleDateString('id-ID', options);
-        }
-
-        // Minta izin lokasi
-        function requestLocation() {
-            showLoading();
-            
-            if (!navigator.geolocation) {
-                showError('Browser Anda tidak mendukung geolokasi. Silakan gunakan peta untuk memilih lokasi.');
-                return;
-            }
-            
-            navigator.geolocation.getCurrentPosition(
-                position => {
-                    userLocation = {
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude
-                    };
-                    
-                    localStorage.setItem('locationGranted', 'true');
-                    
-                    // Tandai lokasi di peta
-                    const latLng = new google.maps.LatLng(
-                        userLocation.latitude, 
-                        userLocation.longitude
-                    );
-                    
-                    placeMarkerAndGetWeather(latLng);
-                    map.setCenter(latLng);
-                    map.setZoom(12);
-                    
-                    showApp();
-                },
-                error => {
-                    let errorMsg = 'Tidak dapat mengakses lokasi Anda. ';
-                    
-                    switch(error.code) {
-                        case error.PERMISSION_DENIED:
-                            errorMsg += 'Silakan pilih lokasi dari peta.';
-                            showApp();
-                            break;
-                        case error.POSITION_UNAVAILABLE:
-                            errorMsg += 'Informasi lokasi tidak tersedia. Silakan pilih lokasi dari peta.';
-                            showApp();
-                            break;
-                        case error.TIMEOUT:
-                            errorMsg += 'Permintaan lokasi waktu habis. Silakan pilih lokasi dari peta.';
-                            showApp();
-                            break;
-                        default:
-                            errorMsg += 'Terjadi kesalahan yang tidak diketahui.';
-                            showError(errorMsg);
-                    }
-                },
-                {
-                    enableHighAccuracy: true,
-                    timeout: 15000,
-                    maximumAge: 60000
-                }
-            );
-        }
-
-        // Dapatkan data cuaca dari BMKG
-        async function getWeatherData() {
-            showLoading();
-            
-            try {
-                // Dalam implementasi nyata, Anda akan memanggil API BMKG di sini
-                // Untuk demo, kita akan menggunakan data simulasi
-                
-                // Simulasi delay jaringan
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                
-                // Data cuaca simulasi berdasarkan lokasi
-                const weatherData = generateMockWeatherData(userLocation);
-                
-                // Tampilkan data cuaca
-                displayWeatherData(weatherData);
-                showApp();
-            } catch (error) {
-                console.error('Error fetching weather data:', error);
-                showError('Gagal mengambil data cuaca. Silakan coba lagi nanti.');
-            }
-        }
-
-        // Tampilkan data cuaca
-        function displayWeatherData(data) {
-            locationName.textContent = data.location;
-            currentTemp.textContent = `${data.current.temperature}°C`;
-            weatherDesc.textContent = data.current.description;
-            weatherIcon.className = getWeatherIcon(data.current.icon);
-            windSpeed.textContent = `${data.current.windSpeed} km/jam`;
-            humidity.textContent = `${data.current.humidity}%`;
-            pressure.textContent = `${data.current.pressure} hPa`;
-            visibility.textContent = `${data.current.visibility} km`;
-            
-            // Tampilkan ramalan cuaca
-            forecastList.innerHTML = '';
-            data.forecast.forEach(day => {
-                const forecastItem = document.createElement('div');
-                forecastItem.className = 'forecast-item';
-                forecastItem.innerHTML = `
-                    <div class="forecast-day">${day.day}</div>
-                    <div class="forecast-icon">
-                        <i class="${getWeatherIcon(day.icon)}"></i>
-                    </div>
-                    <div class="forecast-temp">${day.temperature}°C</div>
-                    <div class="forecast-desc">${day.description}</div>
-                `;
-                forecastList.appendChild(forecastItem);
-            });
-        }
-
-        // Dapatkan ikon cuaca berdasarkan kondisi
-        function getWeatherIcon(condition) {
-            const iconMap = {
-                'clear': 'fas fa-sun',
-                'partly-cloudy': 'fas fa-cloud-sun',
-                'cloudy': 'fas fa-cloud',
-                'rain': 'fas fa-cloud-rain',
-                'thunderstorm': 'fas fa-bolt',
-                'snow': 'fas fa-snowflake'
-            };
-            
-            return iconMap[condition] || 'fas fa-cloud';
-        }
-
-        // Generate data cuaca simulasi (dalam implementasi nyata, ganti dengan API BMKG)
-        function generateMockWeatherData(location) {
-            // Data cuaca saat ini
-            const current = {
-                temperature: Math.floor(Math.random() * 15) + 25, // 25-40°C
-                description: ['Cerah', 'Berawan', 'Hujan Ringan', 'Hujan Lebat'][Math.floor(Math.random() * 4)],
-                icon: ['clear', 'partly-cloudy', 'cloudy', 'rain'][Math.floor(Math.random() * 4)],
-                windSpeed: Math.floor(Math.random() * 20) + 5, // 5-25 km/jam
-                humidity: Math.floor(Math.random() * 40) + 50, // 50-90%
-                pressure: Math.floor(Math.random() * 20) + 1000, // 1000-1020 hPa
-                visibility: (Math.floor(Math.random() * 10) + 5) / 10 // 0.5-1.5 km
-            };
-            
-            // Data ramalan 5 hari
-            const forecast = [];
-            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-            const today = new Date();
-            
-            for (let i = 1; i <= 5; i++) {
-                const nextDay = new Date(today);
-                nextDay.setDate(today.getDate() + i);
-                
-                forecast.push({
-                    day: days[nextDay.getDay()],
-                    temperature: Math.floor(Math.random() * 15) + 25,
-                    description: ['Cerah', 'Berawan', 'Hujan Ringan', 'Hujan Lebat'][Math.floor(Math.random() * 4)],
-                    icon: ['clear', 'partly-cloudy', 'cloudy', 'rain'][Math.floor(Math.random() * 4)]
-                });
-            }
-            
-            return {
-                location: location.name || 'Lokasi Terpilih',
-                current: current,
-                forecast: forecast
-            };
-        }
-
-        // Cari lokasi di peta
-        function searchLocation() {
-            const query = mapSearch.value.trim();
-            if (!query) return;
-            
-            const request = {
-                query: query + ', Indonesia',
-                fields: ['name', 'geometry']
-            };
-            
-            const service = new google.maps.places.PlacesService(map);
-            
-            service.findPlaceFromQuery(request, (results, status) => {
-                if (status === google.maps.places.PlacesServiceStatus.OK && results[0]) {
-                    const place = results[0];
-                    map.setCenter(place.geometry.location);
-                    map.setZoom(12);
-                    
-                    // Tandai lokasi
-                    placeMarkerAndGetWeather(place.geometry.location);
-                } else {
-                    selectedLocation.textContent = 'Lokasi tidak ditemukan';
-                }
-            });
-        }
-
-        // Event Listeners
-        grantPermissionBtn.addEventListener('click', requestLocation);
-        useMapBtn.addEventListener('click', showApp);
-        refreshBtn.addEventListener('click', getWeatherData);
-        retryBtn.addEventListener('click', getWeatherData);
-        currentLocationBtn.addEventListener('click', requestLocation);
-        resetMapBtn.addEventListener('click', () => {
-            map.setCenter({ lat: -2.5489, lng: 118.0149 });
-            map.setZoom(5);
-            if (marker) {
-                marker.setMap(null);
-                marker = null;
-            }
-            selectedLocation.textContent = 'Klik pada peta untuk memilih lokasi';
-        });
-        searchBtn.addEventListener('click', searchLocation);
-        mapSearch.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                searchLocation();
-            }
-        });
-
-        // Inisialisasi aplikasi saat halaman dimuat
-        document.addEventListener('DOMContentLoaded', initApp);
-    </script>
 </body>
 </html>
