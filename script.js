@@ -414,6 +414,14 @@
                 switchPage('gempa');
                 response = 'Membuka halaman gempa. Menampilkan informasi gempa terkini di Indonesia.';
                 voiceStatus.textContent = 'Membuka halaman gempa';
+                } else if (lowerCommand.includes('palu') || lowerCommand.includes('#')) {
+                switchPage('palu');
+                response = 'bahasa daerah kaili';
+                voiceStatus.textContent = 'napane baya';
+                } else if (lowerCommand.includes('poso') || lowerCommand.includes('#')) {
+                switchPage('poso');
+                response = 'bahasa daerah poso';
+                voiceStatus.textContent = 'mapane gagamo';    
             } else if (lowerCommand.includes('udara') || lowerCommand.includes('air quality')) {
                 switchPage('kualitas-udara');
                 response = 'Membuka halaman kualitas udara. Menampilkan informasi kualitas udara di berbagai kota di Indonesia.';
@@ -1036,4 +1044,5 @@
 
         // Inisialisasi aplikasi saat halaman dimuat
         document.addEventListener('DOMContentLoaded', initApp);
+
 
