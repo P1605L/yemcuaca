@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YemCuaca - Ramalan Cuaca Seluruh Indonesia</title>
+    <title>CuacaKu - Ramalan Cuaca Seluruh Indonesia</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-cloud-sun"></i> YemCuaca</h1>
-            <p>Ramalan Cuaca 2025- Data BMKG</p>
+            <h1><i class="fas fa-cloud-sun"></i> CuacaKu</h1>
+            <p>Ramalan Cuaca Seluruh Indonesia - Data BMKG</p>
         </header>
 
         <!-- Kartu Persetujuan Lokasi -->
         <div class="card permission-card" id="permissionCard">
             <h2>Akses Lokasi Diperlukan</h2>
-            <p>warning!!! untuk saat untuk perizinan lokasi belum bisa yang dikarenakan belum ada API dari google maps</p>
+            <p>Untuk menampilkan ramalan cuaca yang akurat di lokasi Anda, kami memerlukan izin untuk mengakses lokasi perangkat Anda.</p>
             <div style="margin: 30px 0;">
                 <i class="fas fa-map-marker-alt" style="font-size: 4rem; color: var(--primary);"></i>
             </div>
@@ -56,7 +56,7 @@
         <!-- Konten Tab Beranda -->
         <div class="tab-content active" id="beranda">
             <div class="hero-section">
-                <h2>Selamat Datang di YemCuaca</h2>
+                <h2>Selamat Datang di CuacaKu</h2>
                 <p>Informasi cuaca, gempa, dan kualitas udara untuk seluruh Indonesia</p>
             </div>
 
@@ -121,9 +121,12 @@
                     </button>
                 </div>
 
-                <div class="search-box">
-                    <input type="text" id="searchCity" placeholder="Cari kota atau kabupaten...">
-                    <i class="fas fa-search"></i>
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" id="searchCity" placeholder="Cari kota atau kabupaten...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="search-results" id="searchResults"></div>
                 </div>
 
                 <div class="region-selector">
@@ -271,6 +274,7 @@
     <div class="voice-modal" id="voiceModal">
         <h4><i class="fas fa-robot"></i> Voice Assistant</h4>
         <p id="voiceStatus">Klik tombol microphone untuk memulai</p>
+        <div class="voice-response" id="voiceResponse"></div>
         <div class="button-group" style="margin-top: 15px;">
             <button class="btn btn-outline" id="closeVoiceBtn">Tutup</button>
         </div>
@@ -295,7 +299,7 @@
             <span>Udara</span>
         </a>
     </div>
-    <script src="script.js"></script>
 
+    <script src="script.js"></script>
 </body>
 </html>
