@@ -64,6 +64,7 @@
         const windDirection = document.getElementById('windDirection');
         const forecastList = document.getElementById('forecastList');
         const searchCity = document.getElementById('searchCity');
+        const searchResults = document.getElementById('searchResults');
         
         // Element Selectors
         const provinceSelect = document.getElementById('provinceSelect');
@@ -89,6 +90,7 @@
         const voiceAssistant = document.getElementById('voiceAssistant');
         const voiceModal = document.getElementById('voiceModal');
         const voiceStatus = document.getElementById('voiceStatus');
+        const voiceResponse = document.getElementById('voiceResponse');
         const closeVoiceBtn = document.getElementById('closeVoiceBtn');
         
         const grantPermissionBtn = document.getElementById('grantPermissionBtn');
@@ -101,6 +103,7 @@
         let currentCity = '';
         let currentTab = 'beranda';
         let recognition = null;
+        let synthesis = null;
 
         // Inisialisasi aplikasi
         function initApp() {
@@ -189,6 +192,13 @@
                 const searchTerm = this.value.toLowerCase();
                 searchCities(searchTerm);
             });
+            
+            // Hide search results when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.search-container')) {
+                    searchResults.style.display = 'none';
+                }
+            });
         }
 
         // Update dropdown kota berdasarkan provinsi
@@ -203,6 +213,52 @@
                     dropdown.appendChild(option);
                 });
             }
+        }
+
+        // Pencarian kota
+        function searchCities(searchTerm) {
+            if (searchTerm.length < 2) {
+                searchResults.style.display = 'none';
+                return;
+            }
+            
+            const results = [];
+            
+            // Cari di semua provinsi dan kota
+            for (const [province, cities] of Object.entries(indonesiaRegions)) {
+                cities.forEach(city => {
+                    if (city.toLowerCase().includes(searchTerm)) {
+                        results.push({ city, province });
+                    }
+                });
+            }
+            
+            // Tampilkan hasil pencarian
+            displaySearchResults(results);
+        }
+
+        // Tampilkan hasil pencarian
+        function displaySearchResults(results) {
+            searchResults.innerHTML = '';
+            
+            if (results.length === 0) {
+                searchResults.style.display = 'none';
+                return;
+            }
+            
+            results.slice(0, 5).forEach(result => {
+                const resultItem = document.createElement('div');
+                resultItem.className = 'search-result-item';
+                resultItem.textContent = `${result.city}, ${result.province}`;
+                resultItem.addEventListener('click', () => {
+                    selectCity(result.city);
+                    searchCity.value = '';
+                    searchResults.style.display = 'none';
+                });
+                searchResults.appendChild(resultItem);
+            });
+            
+            searchResults.style.display = 'block';
         }
 
         // Pilih kota
@@ -233,29 +289,6 @@
             // Switch ke tab cuaca jika dari beranda
             if (currentTab === 'beranda') {
                 switchPage('cuaca-umum');
-            }
-        }
-
-        // Cari kota
-        function searchCities(searchTerm) {
-            if (searchTerm.length < 2) return;
-            
-            const results = [];
-            
-            // Cari di semua provinsi dan kota
-            for (const [province, cities] of Object.entries(indonesiaRegions)) {
-                cities.forEach(city => {
-                    if (city.toLowerCase().includes(searchTerm)) {
-                        results.push({ city, province });
-                    }
-                });
-            }
-            
-            // Tampilkan hasil pencarian (bisa dikembangkan dengan dropdown results)
-            if (results.length > 0) {
-                console.log('Hasil pencarian:', results);
-                // Untuk demo, pilih hasil pertama
-                // selectCity(results[0].city);
             }
         }
 
@@ -318,9 +351,19 @@
                 
                 recognition.onend = function() {
                     voiceAssistant.classList.remove('listening');
+                setTimeout(() => {
+                    if (voiceModal.classList.contains('active')) {
+                        voiceModal.classList.remove('active');
+                    }
+                }, 3000);
                 };
             } else {
                 voiceStatus.textContent = 'Browser tidak mendukung speech recognition';
+            }
+            
+            // Check if browser supports speech synthesis
+            if ('speechSynthesis' in window) {
+                synthesis = window.speechSynthesis;
             }
             
             voiceAssistant.addEventListener('click', toggleVoiceAssistant);
@@ -349,32 +392,67 @@
             }
         }
 
+        function speakText(text) {
+            if (synthesis) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'id-ID';
+                utterance.rate = 1.0;
+                utterance.pitch = 1.0;
+                synthesis.speak(utterance);
+            }
+        }
+
         function processVoiceCommand(command) {
             const lowerCommand = command.toLowerCase();
+            let response = '';
             
             if (lowerCommand.includes('cuaca') || lowerCommand.includes('weather')) {
                 switchPage('cuaca-umum');
+                response = 'Membuka halaman cuaca. Silakan pilih kota untuk melihat informasi cuaca.';
                 voiceStatus.textContent = 'Membuka halaman cuaca';
             } else if (lowerCommand.includes('gempa') || lowerCommand.includes('earthquake')) {
                 switchPage('gempa');
+                response = 'Membuka halaman gempa. Menampilkan informasi gempa terkini di Indonesia.';
                 voiceStatus.textContent = 'Membuka halaman gempa';
             } else if (lowerCommand.includes('udara') || lowerCommand.includes('air quality')) {
                 switchPage('kualitas-udara');
+                response = 'Membuka halaman kualitas udara. Menampilkan informasi kualitas udara di berbagai kota di Indonesia.';
                 voiceStatus.textContent = 'Membuka halaman kualitas udara';
             } else if (lowerCommand.includes('beranda') || lowerCommand.includes('home')) {
                 switchPage('beranda');
+                response = 'Membuka halaman beranda. Selamat datang di aplikasi CuacaKu.';
                 voiceStatus.textContent = 'Membuka halaman beranda';
+            } else if (lowerCommand.includes('maritim') || lowerCommand.includes('marine')) {
+                switchPage('maritim');
+                response = 'Membuka halaman cuaca maritim. Menampilkan informasi cuaca untuk pelayaran.';
+                voiceStatus.textContent = 'Membuka halaman cuaca maritim';
+            } else if (lowerCommand.includes('bandara') || lowerCommand.includes('airport')) {
+                switchPage('bandara');
+                response = 'Membuka halaman cuaca bandara. Menampilkan informasi cuaca untuk penerbangan.';
+                voiceStatus.textContent = 'Membuka halaman cuaca bandara';
             } else {
                 // Coba cari kota dalam perintah
+                let foundCity = null;
                 for (const city of popularCities) {
                     if (lowerCommand.includes(city.toLowerCase())) {
-                        selectCity(city);
-                        voiceStatus.textContent = `Menampilkan cuaca untuk ${city}`;
-                        return;
+                        foundCity = city;
+                        break;
                     }
                 }
-                voiceStatus.textContent = `Perintah "${command}" tidak dikenali. Coba "cuaca Jakarta", "gempa", atau "udara"`;
+                
+                if (foundCity) {
+                    selectCity(foundCity);
+                    response = `Menampilkan cuaca untuk ${foundCity}.`;
+                    voiceStatus.textContent = `Menampilkan cuaca untuk ${foundCity}`;
+                } else {
+                    response = `Perintah "${command}" tidak dikenali. Coba "cuaca Jakarta", "gempa", atau "udara".`;
+                    voiceStatus.textContent = `Perintah tidak dikenali`;
+                }
             }
+            
+            // Tampilkan dan ucapkan respons
+            voiceResponse.textContent = response;
+            speakText(response);
         }
 
         // Switch between pages
