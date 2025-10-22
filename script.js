@@ -420,7 +420,7 @@
                 voiceStatus.textContent = 'Membuka halaman kualitas udara';
             } else if (lowerCommand.includes('beranda') || lowerCommand.includes('home')) {
                 switchPage('beranda');
-                response = 'Membuka halaman beranda. Selamat datang di aplikasi CuacaKu.';
+                response = 'Membuka halaman beranda. Selamat datang di web aplikasi YemCuaca.';
                 voiceStatus.textContent = 'Membuka halaman beranda';
             } else if (lowerCommand.includes('maritim') || lowerCommand.includes('marine')) {
                 switchPage('maritim');
@@ -1036,3 +1036,4 @@
 
         // Inisialisasi aplikasi saat halaman dimuat
         document.addEventListener('DOMContentLoaded', initApp);
+
