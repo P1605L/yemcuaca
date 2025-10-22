@@ -414,21 +414,13 @@
                 switchPage('gempa');
                 response = 'Membuka halaman gempa. Menampilkan informasi gempa terkini di Indonesia.';
                 voiceStatus.textContent = 'Membuka halaman gempa';
-                } else if (lowerCommand.includes('palu') || lowerCommand.includes('#')) {
-                switchPage('palu');
-                response = 'bahasa daerah kaili';
-                voiceStatus.textContent = 'napane baya';
-                } else if (lowerCommand.includes('poso') || lowerCommand.includes('#')) {
-                switchPage('poso');
-                response = 'bahasa daerah poso';
-                voiceStatus.textContent = 'mapane gagamo';    
             } else if (lowerCommand.includes('udara') || lowerCommand.includes('air quality')) {
                 switchPage('kualitas-udara');
                 response = 'Membuka halaman kualitas udara. Menampilkan informasi kualitas udara di berbagai kota di Indonesia.';
                 voiceStatus.textContent = 'Membuka halaman kualitas udara';
             } else if (lowerCommand.includes('beranda') || lowerCommand.includes('home')) {
                 switchPage('beranda');
-                response = 'Membuka halaman beranda. Selamat datang di web aplikasi YemCuaca.';
+                response = 'Membuka halaman beranda. Selamat datang di aplikasi CuacaKu.';
                 voiceStatus.textContent = 'Membuka halaman beranda';
             } else if (lowerCommand.includes('maritim') || lowerCommand.includes('marine')) {
                 switchPage('maritim');
@@ -438,6 +430,14 @@
                 switchPage('bandara');
                 response = 'Membuka halaman cuaca bandara. Menampilkan informasi cuaca untuk penerbangan.';
                 voiceStatus.textContent = 'Membuka halaman cuaca bandara';
+            } else if (lowerCommand.includes('palu') || lowerCommand.includes('palu')) {
+        // Respons dalam bahasa daerah Kaili
+                response = 'Napane ba-ya, mia-né karambau-i-Palu. Ta-bea mpo kuli-u cua-cana.';
+                voiceStatus.textContent = 'bahasa daerah kaili';
+            } else if (lowerCommand.includes('poso') || lowerCommand.includes('poso')) {
+        // Respons dalam bahasa daerah Kaili
+                response = 'ta-bea mpe-tubu-naka ri kita pura-pura, ire-i yaku damanto-oka kita ara mapane saanya palu se-i';
+                voiceStatus.textContent = 'bahasa daerah pamona';
             } else {
                 // Coba cari kota dalam perintah
                 let foundCity = null;
@@ -1044,5 +1044,3 @@
 
         // Inisialisasi aplikasi saat halaman dimuat
         document.addEventListener('DOMContentLoaded', initApp);
-
-
