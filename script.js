@@ -435,9 +435,13 @@
                 response = 'Napane ba-ya, mia-né karambau-i-Palu. Ta-bea mpo kuli-u cua-cana.';
                 voiceStatus.textContent = 'bahasa daerah kaili';
             } else if (lowerCommand.includes('poso') || lowerCommand.includes('poso')) {
-        // Respons dalam bahasa daerah Kaili
+        // Respons dalam bahasa daerah Poso
                 response = 'ta-bea mpe-tubu-naka ri kita pura-pura, ire-i yaku damanto-oka kita ara mapane saanya palu se-i';
                 voiceStatus.textContent = 'bahasa daerah pamona';
+             } else if (lowerCommand.includes('Stimik bina mulia palu') || lowerCommand.includes('Stimik bina mulia palu')) {
+        // Respons dalam slogan stimik bina mulia palu
+                response = 'Dunia Dalam Genggaman';
+                voiceStatus.textContent = 'slogan STIMIK bina mulia palu';       
             } else {
                 // Coba cari kota dalam perintah
                 let foundCity = null;
@@ -1044,4 +1048,5 @@
 
         // Inisialisasi aplikasi saat halaman dimuat
         document.addEventListener('DOMContentLoaded', initApp);
+
 
