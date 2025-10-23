@@ -438,7 +438,7 @@
         // Respons dalam bahasa daerah Poso
                 response = 'ta-bea mpe-tubu-naka ri kita pura-pura, ire-i yaku damanto-oka kita ara mapane saanya palu se-i';
                 voiceStatus.textContent = 'bahasa daerah pamona';
-             } else if (lowerCommand.includes('Stimik bina mulia palu') || lowerCommand.includes('Stimik bina mulia palu')) {
+             } else if (lowerCommand.includes('Stimik bina mulia') || lowerCommand.includes('Stimik bina mulia')) {
         // Respons dalam slogan stimik bina mulia palu
                 response = 'Dunia Dalam Genggaman';
                 voiceStatus.textContent = 'slogan STIMIK bina mulia palu';       
@@ -1048,5 +1048,6 @@
 
         // Inisialisasi aplikasi saat halaman dimuat
         document.addEventListener('DOMContentLoaded', initApp);
+
 
 
